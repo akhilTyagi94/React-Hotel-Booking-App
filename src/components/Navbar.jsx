@@ -1,17 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Avatar,
   Box,
   Container,
   IconButton,
+  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
+import SearchOutlinedIcon from "@material-ui/icons/SearchOutlined";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ hotels, setHotels, originalHotels }) => {
   const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState();
+
+  const handleSearch = () => {
+    const filteredHotels = hotels.filter(
+      (hotel) =>
+        hotel.address.toLowerCase().includes(searchValue.toLowerCase()) ||
+        hotel.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setHotels(filteredHotels);
+  };
+
   return (
     <>
       <AppBar position="static" color="inherit">
@@ -35,6 +48,32 @@ const Navbar = () => {
             </Typography>
 
             <Box sx={{ display: "flex", gap: "20px", alignItems: "center" }}>
+              {originalHotels.length > 0 && (
+                <>
+                  <TextField
+                    value={searchValue}
+                    onChange={(e) => {
+                      setSearchValue(e.target.value);
+                      if (e.target.value === "") {
+                        setHotels(originalHotels);
+                      }
+                    }}
+                    variant="outlined"
+                    label="Search Hotel"
+                    size="small"
+                    InputProps={{
+                      endAdornment: (
+                        <IconButton
+                          disabled={!searchValue}
+                          onClick={() => handleSearch()}
+                        >
+                          <SearchOutlinedIcon />
+                        </IconButton>
+                      ),
+                    }}
+                  />
+                </>
+              )}
               <Typography
                 onClick={() => navigate("/")}
                 sx={{ cursor: "pointer" }}

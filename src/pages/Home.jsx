@@ -8,32 +8,38 @@ import HotelCard from "../components/HotelCard";
 
 const Home = () => {
   const [hotels, setHotels] = useState([]);
+  const [filteredHotels, setFilteredHotels] = useState([]);
   const [page, setPage] = useState(1);
   const hotelLimitPerPage = 9;
 
   const fetchHotels = async () => {
     const { data } = await getHotels();
     setHotels(data);
+    setFilteredHotels(data);
     return data;
   };
 
-  const { data, isLoading } = useQuery("hotels", fetchHotels);
+  const { isLoading } = useQuery("hotels", fetchHotels);
   const startIndex = (page - 1) * hotelLimitPerPage;
   const endIndex = page * hotelLimitPerPage - 1;
-  const filteredHotels = hotels.slice(startIndex, endIndex + 1);
-  const totalHotels = hotels.length;
+  const paginatedHotels = filteredHotels.slice(startIndex, endIndex + 1);
+  const totalHotels = filteredHotels.length;
   const totalPages = Math.ceil(totalHotels / hotelLimitPerPage);
 
   return isLoading ? (
     <LoadingSkeleton />
   ) : (
     <>
-      <Navbar />
+      <Navbar
+        hotels={filteredHotels}
+        setHotels={setFilteredHotels}
+        originalHotels={hotels}
+      />
       <Container maxWidth="lg">
         <Grid container spacing={2} sx={{ padding: 2 }}>
-          {filteredHotels.length > 0 ? (
+          {paginatedHotels.length > 0 ? (
             <>
-              {filteredHotels.map((hotels) => (
+              {paginatedHotels.map((hotels) => (
                 <Grid item xs={12} sm={6} md={4} key={hotels.id}>
                   <HotelCard key={hotels.id} hotel={hotels} />
                 </Grid>
