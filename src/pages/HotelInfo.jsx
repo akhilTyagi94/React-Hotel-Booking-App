@@ -3,9 +3,9 @@ import { Box, Button, Container, ListItem, Typography } from "@mui/material";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getHotelBySlug } from "../api/request";
-import { Navbar } from "../components/Navbar";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 import { Gallery } from "../components/Gallery";
+import { Navbar } from "../components/Navbar";
 import { BookingModal } from "../components/BookingModal";
 
 function HotelInfo() {
@@ -73,7 +73,9 @@ function HotelInfo() {
                 <ListItem key={feature.id}>{feature.text}</ListItem>
               ))}
             </Box>
-            <Button variant="outlined">Reserve</Button>
+            <Button onClick={handleOpen} variant="outlined">
+              Reserve
+            </Button>
           </Box>
 
           <BookingModal data={data} open={open} handleClose={handleClose} />

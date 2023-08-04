@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { getHotels } from "../api/request";
 import { useQuery } from "react-query";
 import LoadingSkeleton from "../components/LoadingSkeleton";
-import Navbar from "../components/Navbar";
+import { Navbar } from "../components/Navbar";
 import { Grid, Container, Pagination } from "@mui/material";
 import HotelCard from "../components/HotelCard";
 

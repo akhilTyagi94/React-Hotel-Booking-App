@@ -7,13 +7,13 @@ const HotelCard = ({ hotel }) => {
   return (
     <Card
       sx={{ cursor: "pointer" }}
-      onClick={() => navigate(`/hotels/${hotel.slug}`)}
+      onClick={() => navigate(`/hotel/${hotel.slug}`)}
     >
       <CardMedia
         component="img"
         height="250"
         image={hotel.thumbnail}
-        title="Contemplative Reptile"
+        alt="hotel"
       />
       <CardContent>
         <Typography fontWeight="bold" variant="h6">
